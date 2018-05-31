@@ -1,0 +1,40 @@
+link_flag = -luv
+
+rule cc
+    depfile = $out.d
+    command = gcc -g -MMD -MF $out.d -o $out -c $in -I./ -std=gnu99
+
+rule link
+    command = gcc -o $out $in $link_flag
+
+build build/ascl-uv/ascl.o: cc ascl-uv/ascl.c
+build build/ascl-uv/file.o: cc ascl-uv/file.c
+build build/ascl-uv/random.o: cc ascl-uv/random.c
+build build/ascl-uv/udp.o: cc ascl-uv/udp.c
+
+build build/keystore/keystore.o: cc keystore/keystore.c
+build build/rmd160/rmd160.o: cc rmd160/rmd160.c
+build build/tweetnacl/rng.o: cc tweetnacl/rng.c
+build build/tweetnacl/tweetnacl.o: cc tweetnacl/tweetnacl.c
+
+build build/router/addrs.o: cc router/addrs.c
+
+build build/test/test_file.o: cc test/file.c
+build build/test/test_ksgen.o: cc test/test_ksgen.c
+build build/test/test_p2p.o: cc test/test_p2p.c
+build build/test/test_ksinit.o: cc test/test_ksinit.c
+build build/test/test_recv.o: cc test/test_recv.c
+build build/test/test_send.o: cc test/test_send.c
+build build/test/test_addrs.o: cc test/test_addrs.c
+
+build build/test_file: link build/ascl-uv/ascl.o build/ascl-uv/file.o build/test/test_file.o
+build build/test_send: link build/ascl-uv/ascl.o build/ascl-uv/udp.o build/test/test_send.o
+build build/test_recv: link build/ascl-uv/ascl.o build/ascl-uv/udp.o build/test/test_send.o
+build build/test_p2p:  link build/ascl-uv/ascl.o build/ascl-uv/udp.o build/test/test_p2p.o
+build build/test_ksgen: link build/ascl-uv/ascl.o build/ascl-uv/file.o build/ascl-uv/random.o build/keystore/keystore.o build/tweetnacl/rng.o $
+    build/tweetnacl/tweetnacl.o build/rmd160/rmd160.o build/test/test_ksgen.o
+build build/test_ksinit: link build/ascl-uv/ascl.o build/ascl-uv/file.o build/ascl-uv/random.o build/keystore/keystore.o build/tweetnacl/rng.o $
+    build/tweetnacl/tweetnacl.o build/rmd160/rmd160.o build/test/test_ksinit.o
+build build/test_addrs: link build/ascl-uv/ascl.o build/ascl-uv/file.o build/router/addrs.o build/test/test_addrs.o
+
+
