@@ -3,10 +3,10 @@
 void kbucket_init(ascl_t *ascl, kbucket_t *kbucket,keystore_t *keystore) {
     kbucket->static_info.item_size = 54;
     kbucket->static_info.total = 160*8;
-    kbucket->file = ascl_file_init(ascl,"static.dat",ASCL_FILE_WRONLY | ASCL_FILE_CREATE);
+    kbucket->static_info.file = ascl_file_init(ascl,"static.dat",ASCL_FILE_WRONLY | ASCL_FILE_CREATE);
     kbucket->dyn_info.item_size = 100;
     kbucket->dyn_info.total = 160*8;
-    kbucket->file = ascl_file_init(ascl,"dyn.dat",ASCL_FILE_WRONLY | ASCL_FILE_CREATE);
+    kbucket->static_info.file = ascl_file_init(ascl,"dyn.dat",ASCL_FILE_WRONLY | ASCL_FILE_CREATE);
     kbucket->keystore = keystore;
     memset(kbucket->router,0,160*8);
 }

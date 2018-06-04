@@ -13,7 +13,7 @@ struct kstorage_t {
     ascl_file_t *file;
 }
 
-void kstorage_init(ascl_t *ascl,kstorage_t *ks);
+// void kstorage_init(ascl_t *ascl,kstorage_t *ks);
 
 int kstorage_insert(kstorage_t *ks, uint8_t *data);
 
